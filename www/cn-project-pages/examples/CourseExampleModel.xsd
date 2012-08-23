@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <xsd:annotation>
+        <xsd:documentation>This is a sample course diagram.</xsd:documentation>
+    </xsd:annotation>
+    
+    <!--Course Class as defined in the UML.-->
+    <xsd:complexType name="CourseType">
+        <xsd:annotation>
+            <xsd:documentation>Sample Course Class Documentation.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:all>
+            <xsd:element name="CourseName" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="CourseCredit" type="xsd:nonNegativeInteger" minOccurs="1" maxOccurs="1"/>
+            <xsd:element ref="Book" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="CourseSession" type="SessionType" minOccurs="0" maxOccurs="1"/>
+        </xsd:all>
+    </xsd:complexType>
+    
+    <!--Teacher Class as defined in the UML.-->
+    <xsd:complexType name="TeacherType">
+        <xsd:complexContent>
+            <xsd:extension base="PersonType">
+                <xsd:sequence/>
+                <xsd:attribute name="TeacherCredential" type="TeacherTypeCode" use="required"/>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+    
+    <!--Student Class as defined in the UML.-->
+    <xsd:complexType name="StudentType">
+        <xsd:complexContent>
+            <xsd:extension base="PersonType">
+                <xsd:sequence>
+                    <xsd:element name="StudentID" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+                </xsd:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+    
+    <!--Book Class as defined in the UML.-->
+    <xsd:complexType name="BookType">
+        <xsd:annotation>
+            <xsd:documentation>A sample comment on Book.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="BookTitle" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="BookAuthor" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="testSimpleDataElement" type="testSimple" minOccurs="1" maxOccurs="1"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    
+    <!--Session Class as defined in the UML.-->
+    <xsd:complexType name="SessionType">
+        <xsd:sequence>
+            <xsd:element name="SessionStartDate" type="xsd:date" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="SessionEndDate" type="xsd:date" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="SessionTitle" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+            <xsd:element ref="Participant" minOccurs="1" maxOccurs="unbounded"/>
+            <xsd:element ref="SchoolDay" minOccurs="1" maxOccurs="3"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    
+    <!--SchoolDay Class as defined in the UML.-->
+    <xsd:complexType name="SchoolDayType">
+        <xsd:sequence>
+            <xsd:element name="Day" type="xsd:gDay" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="DayStartTime" type="xsd:time" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="DayEndTime" type="xsd:time" minOccurs="1" maxOccurs="1"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    
+    <!--Person Class as defined in the UML.-->
+    <xsd:complexType name="PersonType">
+        <xsd:sequence>
+            <xsd:element name="PersonFullName" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    
+    <!--Global Abstract Elements-->
+    <xsd:element name="Participant" abstract="true"/>
+    
+    <!--Global Elements-->
+    <xsd:element name="Course" type="CourseType"/>
+    <xsd:element name="Teacher" type="TeacherType" substitutionGroup="Participant"/>
+    <xsd:element name="Student" type="StudentType" substitutionGroup="Participant"/>
+    <xsd:element name="Book" type="BookType"/>
+    <xsd:element name="Session" type="SessionType"/>
+    <xsd:element name="SchoolDay" type="SchoolDayType"/>
+    <xsd:element name="Person" type="PersonType"/>
+    
+    <!--Global Enumerations-->
+    <xsd:simpleType name="TeacherTypeCode">
+        <xsd:restriction base="xsd:token">
+            <xsd:enumeration value="Professor"/>
+            <xsd:enumeration value="PhD"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    
+    <!--WARNING: UNSUPPORTED DATA TYPES! Please remap to a data type in
+        xsd.xmi profile.-->
+    <xsd:simpleType name="testSimple">
+        <xsd:restriction base="xsd:string"/>
+    </xsd:simpleType>
+</xsd:schema>
