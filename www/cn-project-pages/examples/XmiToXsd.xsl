@@ -8,7 +8,7 @@
 <!-- http://www.niematron.org/               -->
 <!--                                         -->
 <!-- Date Created: 2012-08-20                -->
-<!-- Last Updated: 2012-08-20                -->
+<!-- Last Updated: 2012-08-24                -->
 <!--                                         -->
 <!--                                         -->
 <!-- *************************************** -->
@@ -16,7 +16,11 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:UML="org.omg.xmi.namespace.UML"
     xmlns:niematron="http://www.niematron.org/" exclude-result-prefixes="xsl UML niematron"
-    version="2.0">
+    version="1.0">
+    
+    <!-- File location of the xsd.xmi file.  Defaults to same directory as the XSLT if not provided. -->
+    <xsl:param name="gXsdProfileFileLocation" select="'./'"/>
+    
     <xsl:output indent="yes"/>
 
     <!-- **************** -->
@@ -28,8 +32,76 @@
     <xsl:variable name="sXsdSequence"
         select="'http://argouml.org/user-profiles/xsd.xmi#id-xsd-m-s-c-sequence'"/>
     <xsl:variable name="sXsdChoice"
-        select="'http://argouml.org/user-profiles/xsd.xmi#id-xsd-m-s-c-choice'"/>
-
+    select="'http://argouml.org/user-profiles/xsd.xmi#id-xsd-m-s-c-choice'"/>
+    
+    <!-- Replace these statics with a dynamic call to external UML XMI? -->
+    <xsl:variable name="sUmlInteger" select="'http://argouml.org/profiles/uml14/default-uml14.xmi#-84-17--56-5-43645a83:11466542d86:-8000:000000000000087C'"/>
+    <xsl:variable name="sUmlString" select="'http://argouml.org/profiles/uml14/default-uml14.xmi#-84-17--56-5-43645a83:11466542d86:-8000:000000000000087E'"/>
+    <xsl:variable name="sUmlUlimitedInteger" select="'http://argouml.org/profiles/uml14/default-uml14.xmi#-84-17--56-5-43645a83:11466542d86:-8000:000000000000087D'"/>
+    <xsl:variable name="sUmlBoolean" select="'http://argouml.org/profiles/uml14/default-uml14.xmi#-84-17--56-5-43645a83:11466542d86:-8000:0000000000000880'"/>
+    
+    <!-- ********************************  -->
+    <!-- Get Data Type Function            -->
+    <!-- fxnGetDataType(a)                 -->
+    <!--   a= Root node of UML:Attribute   -->
+    <!-- ********************************  -->
+    
+    <xsl:template name="niematron:fxnGetDataType">
+        <xsl:param name="vAttributeRootNode"/>
+        
+        <xsl:choose>
+            <!-- If a UML Boolean type -->
+            <xsl:when test="$vAttributeRootNode/UML:StructuralFeature.type[1]/UML:Enumeration[@href = $sUmlBoolean]">
+                <xsl:value-of select="'xsd:boolean'"/>
+            </xsl:when>
+            
+            <!-- If a UML String type -->
+            <xsl:when test="$vAttributeRootNode/UML:StructuralFeature.type[1]/UML:DataType[@href = $sUmlString]">
+                <xsl:value-of select="'xsd:string'"/>
+            </xsl:when>
+            
+            <!-- If a UML Integer type -->
+            <xsl:when test="$vAttributeRootNode/UML:StructuralFeature.type[1]/UML:DataType[@href = $sUmlInteger]">
+                <xsl:value-of select="'xsd:integer'"/>
+            </xsl:when>
+            
+            <!-- If a UML Unsigned Integer type -->
+            <xsl:when test="$vAttributeRootNode/UML:StructuralFeature.type[1]/UML:DataType[@href = $sUmlUlimitedInteger]">
+                <xsl:value-of select="'xsd:nonNegativeInteger'"/>
+            </xsl:when>
+            
+            <!-- If an enumeration (not a UML boolean type-->
+            <xsl:when
+                test="$vAttributeRootNode/UML:StructuralFeature.type[1]/UML:Enumeration">
+                <xsl:variable name="vEnumType"
+                    select="$vAttributeRootNode/UML:StructuralFeature.type[1]/UML:Enumeration/@xmi.idref"/>
+                <xsl:value-of
+                    select="/XMI/XMI.content[1]/UML:Model[1]/UML:Namespace.ownedElement[1]/UML:Enumeration[@xmi.id=$vEnumType]/@name"
+                />
+            </xsl:when>
+            
+            <!-- If a local data type (UNSUPPORTED)-->
+            <xsl:when
+                test="$vAttributeRootNode/UML:StructuralFeature.type[1]/UML:DataType/@xmi.idref != ''">
+                <xsl:variable name="vDataType"
+                    select="$vAttributeRootNode/UML:StructuralFeature.type[1]/UML:DataType/@xmi.idref"/>
+                <xsl:value-of
+                    select="/XMI/XMI.content[1]/UML:Model[1]/UML:Namespace.ownedElement[1]/UML:DataType[@xmi.id=$vDataType]/@name"
+                />
+            </xsl:when>
+            
+            <!-- Otherwise must be a fixed data type from xsd.xmi file -->
+            <xsl:otherwise>
+                <xsl:variable name="vDataType"
+                    select="substring-after($vAttributeRootNode/UML:StructuralFeature.type/UML:DataType/@href,'http://argouml.org/user-profiles/xsd.xmi#')"/>
+                <xsl:value-of
+                    select="concat('xsd:', document(concat($gXsdProfileFileLocation, 'xsd.xmi'))/XMI/XMI.content[1]/UML:Model[1]/UML:Namespace.ownedElement[1]/UML:DataType[@xmi.id=$vDataType]/@name)"
+                />
+            </xsl:otherwise>
+        </xsl:choose>
+    </xsl:template>
+    
+    
     <!-- *************************  -->
     <!-- Get Attributes Function    -->
     <!-- fxnGetClassAttributes(a)   -->
@@ -49,48 +121,21 @@
                 
                 <!-- Attribute Type -->
                 <xsl:attribute name="type">
-
-                    <xsl:choose>
-                        <!-- If an enumeration -->
-                        <xsl:when
-                            test="count($vClassRootNode/UML:Classifier.feature[1]/UML:Attribute[1]/UML:StructuralFeature.type[1]/UML:Enumeration) > 0">
-                            <xsl:variable name="vEnumType"
-                                select="$vClassRootNode/UML:Classifier.feature[1]/UML:Attribute[1]/UML:StructuralFeature.type[1]/UML:Enumeration/@xmi.idref"/>
-                            <xsl:value-of
-                                select="/XMI/XMI.content[1]/UML:Model[1]/UML:Namespace.ownedElement[1]/UML:Enumeration[@xmi.id=$vEnumType]/@name"
-                            />
-                        </xsl:when>
-
-                        <!-- If a local data type (UNSUPPORTED)-->
-                        <xsl:when
-                            test="$vClassRootNode/UML:Classifier.feature[1]/UML:Attribute[1]/UML:StructuralFeature.type[1]/UML:DataType/@xmi.idref != ''">
-                            <xsl:variable name="vDataType"
-                                select="$vClassRootNode/UML:Classifier.feature[1]/UML:Attribute[1]/UML:StructuralFeature.type[1]/UML:DataType/@xmi.idref"/>
-                            <xsl:value-of
-                                select="/XMI/XMI.content[1]/UML:Model[1]/UML:Namespace.ownedElement[1]/UML:DataType[@xmi.id=$vDataType]/@name"
-                            />
-                        </xsl:when>
-
-                        <!-- Otherwise must be a fixed data type from xsd.xmi file -->
-                        <xsl:otherwise>
-                            <xsl:variable name="vDataType"
-                                select="substring-after($vClassRootNode/UML:StructuralFeature.type/UML:DataType/@href,'http://argouml.org/user-profiles/xsd.xmi#')"/>
-                            <xsl:value-of
-                                select="concat('xsd:', document('xsd.xmi')/XMI/XMI.content[1]/UML:Model[1]/UML:Namespace.ownedElement[1]/UML:DataType[@xmi.id=$vDataType]/@name)"
-                            />
-                        </xsl:otherwise>
-                    </xsl:choose>
+                <xsl:call-template name="niematron:fxnGetDataType">
+                    <xsl:with-param name="vAttributeRootNode" select="."/>
+                </xsl:call-template>
+                    
                 </xsl:attribute>
                 
                 <!-- Attribute Required -->
-                <xsl:if test="$vClassRootNode/UML:Classifier.feature[1]/UML:Attribute[1]/UML:StructuralFeature.multiplicity[1]/UML:Multiplicity[1]/UML:Multiplicity.range[1]/UML:MultiplicityRange[@lower = 1]">
+                <xsl:if test="./UML:StructuralFeature.multiplicity[1]/UML:Multiplicity[1]/UML:Multiplicity.range[1]/UML:MultiplicityRange[@lower = 1]">
                     <xsl:attribute name="use">
                         <xsl:value-of select="'required'"/>
                     </xsl:attribute>
                 </xsl:if>
                 
                 <!-- Attribute Prohibited -->
-                <xsl:if test="$vClassRootNode/UML:Classifier.feature[1]/UML:Attribute[1]/UML:StructuralFeature.multiplicity[1]/UML:Multiplicity[1]/UML:Multiplicity.range[1]/UML:MultiplicityRange[@lower = 0]">
+                <xsl:if test="./UML:StructuralFeature.multiplicity[1]/UML:Multiplicity[1]/UML:Multiplicity.range[1]/UML:MultiplicityRange[@lower = 0]">
                     <xsl:attribute name="use">
                         <xsl:value-of select="'prohibited'"/>
                     </xsl:attribute>
@@ -120,36 +165,9 @@
                     <xsl:value-of select="@name"/>
                 </xsl:attribute>
                 <xsl:attribute name="type">
-                    <xsl:choose>
-
-                        <!-- If an enumeration -->
-                        <xsl:when test="count(./UML:StructuralFeature.type[1]/UML:Enumeration) > 0">
-                            <xsl:variable name="vEnumType"
-                                select="./UML:StructuralFeature.type[1]/UML:Enumeration/@xmi.idref"/>
-                            <xsl:value-of
-                                select="/XMI/XMI.content[1]/UML:Model[1]/UML:Namespace.ownedElement[1]/UML:Enumeration[@xmi.id=$vEnumType]/@name"
-                            />
-                        </xsl:when>
-
-                        <!-- If a local data type -->
-                        <xsl:when
-                            test="./UML:StructuralFeature.type[1]/UML:DataType/@xmi.idref != ''">
-                            <xsl:variable name="vDataType"
-                                select="./UML:StructuralFeature.type[1]/UML:DataType/@xmi.idref"/>
-                            <xsl:value-of
-                                select="/XMI/XMI.content[1]/UML:Model[1]/UML:Namespace.ownedElement[1]/UML:DataType[@xmi.id=$vDataType]/@name"
-                            />
-                        </xsl:when>
-
-                        <!-- If a fixed data type from xsd.xmi file -->
-                        <xsl:otherwise>
-                            <xsl:variable name="vDataType"
-                                select="substring-after(./UML:StructuralFeature.type/UML:DataType/@href,'http://argouml.org/user-profiles/xsd.xmi#')"/>
-                            <xsl:value-of
-                                select="concat('xsd:', document('xsd.xmi')/XMI/XMI.content[1]/UML:Model[1]/UML:Namespace.ownedElement[1]/UML:DataType[@xmi.id=$vDataType]/@name)"
-                            />
-                        </xsl:otherwise>
-                    </xsl:choose>
+                    <xsl:call-template name="niematron:fxnGetDataType">
+                        <xsl:with-param name="vAttributeRootNode" select="."/>
+                    </xsl:call-template>
                 </xsl:attribute>
                 <xsl:attribute name="minOccurs">
                     <xsl:value-of
@@ -312,6 +330,7 @@
                     <!-- MaxOccurs -->
                     <xsl:attribute name="maxOccurs">
                         <xsl:choose>
+                            
                             <!-- Cannot exceed "1" for xsd:all -->
                             <xsl:when test="$vContentModelString = 'xsd:all'">
                                 <xsl:value-of select="'1'"/>
@@ -491,10 +510,12 @@ This transform currently only supports
                     </xsl:for-each>
 
                     <!-- Abstract Data Elements -->
+                    <xsl:if test="/XMI/XMI.content[1]/UML:Model[1]/UML:Namespace.ownedElement[1]/UML:Interface">
                     <xsl:text>
                         
    </xsl:text>
                     <xsl:comment>Global Abstract Elements</xsl:comment>
+                    </xsl:if>
                     <xsl:for-each
                         select="/XMI/XMI.content[1]/UML:Model[1]/UML:Namespace.ownedElement[1]/UML:Interface">
 
@@ -542,10 +563,12 @@ This transform currently only supports
                     </xsl:for-each>
 
                     <!-- Enumerations -->
+                    <xsl:if test="/XMI/XMI.content[1]/UML:Model[1]/UML:Namespace.ownedElement[1]/UML:Enumeration">
                     <xsl:text>
                         
    </xsl:text>
                     <xsl:comment>Global Enumerations</xsl:comment>
+                    </xsl:if>
                     <xsl:for-each
                         select="/XMI/XMI.content[1]/UML:Model[1]/UML:Namespace.ownedElement[1]/UML:Enumeration">
                         <xsl:element name="xsd:simpleType">
@@ -573,11 +596,13 @@ This transform currently only supports
                     </xsl:for-each>
 
                     <!-- WARNING: UNSUPPORTED DATA TYPE -->
+                    <xsl:if test="/XMI/XMI.content[1]/UML:Model[1]/UML:Namespace.ownedElement[1]/UML:DataType">
                     <xsl:text>
                         
    </xsl:text>
                     <xsl:comment>WARNING: UNSUPPORTED DATA TYPES! Please remap to a data type in
-                        xsd.xmi profile.</xsl:comment>
+                    xsd.xmi profile.</xsl:comment>
+                    </xsl:if>
                     <xsl:for-each
                         select="/XMI/XMI.content[1]/UML:Model[1]/UML:Namespace.ownedElement[1]/UML:DataType">
                         <xsl:element name="xsd:simpleType">
