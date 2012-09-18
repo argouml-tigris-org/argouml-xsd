@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+    <meta>
+        <filters directoryPatterns="" filePatterns=""
+            positiveFilePatterns="" showHiddenFiles="false"/>
+        <options/>
+    </meta>
+    <projectTree name="ArgoXsdOxygenProject.xpr">
+        <file name="ArgoUmlXmlDump.xml"/>
+        <file name="ArgoXmlToXsd.xsl"/>
+        <file name="XmiToXsd.xsl"/>
+        <file name="xsd.xmi"/>
+    </projectTree>
+</project>
