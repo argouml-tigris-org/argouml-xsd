@@ -228,11 +228,11 @@
             </xsl:element>
         </xsl:for-each>
 
-        <!-- Public Elements/Lines -->
+        <!-- Public Elements/Lines (aggregate) -->
         <xsl:for-each
             select="/XMI/XMI.content[1]/UML:Model[1]/UML:Namespace.ownedElement[1]/UML:Association">
             <xsl:for-each
-                select="./UML:Association.connection[1]/UML:AssociationEnd[@isNavigable='false' and @aggregation!='composite' and UML:AssociationEnd.participant/UML:Class/@xmi.idref = $vClassRootNode/@xmi.id]">
+                select="./UML:Association.connection[1]/UML:AssociationEnd[@isNavigable='false' and @aggregation='aggregate' and UML:AssociationEnd.participant/UML:Class/@xmi.idref = $vClassRootNode/@xmi.id]">
                 <xsl:variable name="vToClassIdref"
                     select="../UML:AssociationEnd[@isNavigable='true']/UML:AssociationEnd.participant/UML:Class/@xmi.idref"/>
                 <xsl:variable name="vToInterfaceIdref"
@@ -313,7 +313,7 @@
             </xsl:for-each>
         </xsl:for-each>
 
-        <!-- Private Elements/Lines -->
+        <!-- Private Elements/Lines (composite)-->
         <xsl:for-each
             select="/XMI/XMI.content[1]/UML:Model[1]/UML:Namespace.ownedElement[1]/UML:Association">
             <xsl:for-each
@@ -404,6 +404,109 @@
                                 <xsl:value-of select="'unbounded'"/>
                             </xsl:when>
 
+                            <!-- All others, just take what's in the 'upper' attribute -->
+                            <xsl:otherwise>
+                                <xsl:value-of
+                                    select="../UML:AssociationEnd[@isNavigable='true']/UML:AssociationEnd.multiplicity[1]/UML:Multiplicity[1]/UML:Multiplicity.range[1]/UML:MultiplicityRange[1]/@upper"
+                                />
+                            </xsl:otherwise>
+                        </xsl:choose>
+                    </xsl:attribute>
+                </xsl:element>
+            </xsl:for-each>
+        </xsl:for-each>
+        
+        <!-- "None" Element Lines (Defaulting to the same as private) -->
+        <xsl:for-each
+            select="/XMI/XMI.content[1]/UML:Model[1]/UML:Namespace.ownedElement[1]/UML:Association">
+            <xsl:for-each
+                select="./UML:Association.connection[1]/UML:AssociationEnd[@isNavigable='false' and @aggregation='none' and UML:AssociationEnd.participant/UML:Class/@xmi.idref = $vClassRootNode/@xmi.id]">
+                <xsl:variable name="vToClassIdref"
+                    select="../UML:AssociationEnd[@isNavigable='true']/UML:AssociationEnd.participant/UML:Class/@xmi.idref"/>
+                <xsl:variable name="vToInterfaceIdref"
+                    select="../UML:AssociationEnd[@isNavigable='true']/UML:AssociationEnd.participant/UML:Interface/@xmi.idref"/>
+                <xsl:element name="xsd:element">
+                    <xsl:choose>
+                        <!-- Use Interface Name if it exists (can't be a private element) -->
+                        <xsl:when
+                            test="count(/XMI/XMI.content[1]/UML:Model[1]/UML:Namespace.ownedElement[1]/UML:Interface[@xmi.id = $vToInterfaceIdref]) > 0">
+                            <xsl:attribute name="ref">
+                                <xsl:value-of
+                                    select="/XMI/XMI.content[1]/UML:Model[1]/UML:Namespace.ownedElement[1]/UML:Interface[@xmi.id = $vToInterfaceIdref]/@name"
+                                />
+                            </xsl:attribute>
+                        </xsl:when>
+                        
+                        <!-- Use Line Name if it exists -->
+                        <xsl:when test="string-length(../../@name) > 0">
+                            <xsl:attribute name="name">
+                                <xsl:value-of select="../../@name"/>
+                            </xsl:attribute>
+                            <xsl:attribute name="type">
+                                <xsl:value-of
+                                    select="concat(/XMI/XMI.content[1]/UML:Model[1]/UML:Namespace.ownedElement[1]/UML:Class[@xmi.id = $vToClassIdref]/@name, 'Type')"
+                                />
+                            </xsl:attribute>
+                        </xsl:when>
+                        
+                        <!-- Use Class Name if it exists -->
+                        <xsl:when
+                            test="count(/XMI/XMI.content[1]/UML:Model[1]/UML:Namespace.ownedElement[1]/UML:Class[@xmi.id = $vToClassIdref]) > 0">
+                            <xsl:attribute name="name">
+                                <xsl:value-of
+                                    select="/XMI/XMI.content[1]/UML:Model[1]/UML:Namespace.ownedElement[1]/UML:Class[@xmi.id = $vToClassIdref]/@name"
+                                />
+                            </xsl:attribute>
+                            <xsl:attribute name="type">
+                                <xsl:value-of
+                                    select="concat(/XMI/XMI.content[1]/UML:Model[1]/UML:Namespace.ownedElement[1]/UML:Class[@xmi.id = $vToClassIdref]/@name, 'Type')"
+                                />
+                            </xsl:attribute>
+                        </xsl:when>
+                        
+                        
+                    </xsl:choose>
+                    
+                    <!-- MinOccurs -->
+                    <xsl:attribute name="minOccurs">
+                        
+                        <xsl:choose>
+                            <xsl:when
+                                test="../UML:AssociationEnd[@isNavigable='true']/UML:AssociationEnd.multiplicity[1]/UML:Multiplicity[1]/UML:Multiplicity.range[1]/UML:MultiplicityRange[1]/@lower">
+                                <xsl:value-of
+                                    select="../UML:AssociationEnd[@isNavigable='true']/UML:AssociationEnd.multiplicity[1]/UML:Multiplicity[1]/UML:Multiplicity.range[1]/UML:MultiplicityRange[1]/@lower"
+                                />
+                            </xsl:when>
+                            <xsl:otherwise>
+                                <xsl:value-of select="'0'"/>
+                            </xsl:otherwise>
+                            
+                        </xsl:choose>
+                        
+                        
+                    </xsl:attribute>
+                    
+                    <!-- MaxOccurs -->
+                    <xsl:attribute name="maxOccurs">
+                        <xsl:choose>
+                            
+                            <!-- Cannot exceed "1" for xsd:all -->
+                            <xsl:when test="$vContentModelString = 'xsd:all'">
+                                <xsl:value-of select="'1'"/>
+                            </xsl:when>
+                            
+                            <!-- Replace "-1" with "unbounded" -->
+                            <xsl:when
+                                test="../UML:AssociationEnd[@isNavigable='true']/UML:AssociationEnd.multiplicity[1]/UML:Multiplicity[1]/UML:Multiplicity.range[1]/UML:MultiplicityRange[1]/@upper = -1">
+                                <xsl:value-of select="'unbounded'"/>
+                            </xsl:when>
+                            
+                            <!-- Make 'unbounded' if not specified -->
+                            <xsl:when
+                                test="count(../UML:AssociationEnd[@isNavigable='true']/UML:AssociationEnd.multiplicity[1]/UML:Multiplicity[1]/UML:Multiplicity.range[1]/UML:MultiplicityRange[1]/@upper) = 0">
+                                <xsl:value-of select="'unbounded'"/>
+                            </xsl:when>
+                            
                             <!-- All others, just take what's in the 'upper' attribute -->
                             <xsl:otherwise>
                                 <xsl:value-of
