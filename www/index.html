@@ -42,15 +42,15 @@
 <h3>Cross-Platform Development Prototype:</h3>
 <p>The design has been initially deployed using XSLT to convert the
 	Argo-provided XMI into an XSD based on the rules outlined in the
-	design. Initial implementation REQUIRES the use of the xsd.xmi profile
-	which must be added to the project and used EXCLUSIVELY for all
+	design wiki. Initial implementation recommends the use of the xsd.xmi profile
+	which should be added to the project and used for all standard XML Schema
 	primitive data types. The following are the related files:</p>
 <ul>
 	<li><a
-		href="http://argouml-xsd.tigris.org/cn-project-pages/examples/xsd.xmi">xmi.xsd</a>
-		- Optional (but recommended) to be added as a profile.</li>
+		href="http://argouml-xsd.tigris.org/source/browse/*checkout*/argouml-xsd/trunk/src/org/argouml/language/xsd/xsd.xmi">xmi.xsd</a>
+		- Optional (but recommended) to be added as a profile to support simple Schema data types.</li>
 	<li><a
-		href="http://argouml-xsd.tigris.org/cn-project-pages/examples/XmiToXsd.xsl">XmiToXsd.xsl</a>
+		href="http://argouml-xsd.tigris.org/source/browse/*checkout*/argouml-xsd/trunk/src/org/argouml/language/xsd/XmiToXsd.xsl">XmiToXsd.xsl</a>
 		- XLST used to convert XMI exported by Argo into and XSD file.
 		Currently assumes the XSLT is in the same physical folder as the
 		xmi.xsd file.</li>
@@ -66,7 +66,7 @@
 		- Generated output from applying the XSLT to the XMI file above.</li>
 </ul>
 
-<h3>Alpha 0.0.1 Released!</h3>
+<h3>Alpha 0.0.2 Released!</h3>
 <p>The above cross-platform prototype was implemented in ArgoUML's Module framework
 and is now available as an alpha to be installed alongside current ArgoUML installations. 
 For questions, comments or issues, please <a href="http://argouml.tigris.org/project_bugs.html">submit issues</a> 
