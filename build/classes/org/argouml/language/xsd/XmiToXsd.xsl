@@ -8,20 +8,20 @@
 <!-- http://www.niematron.org/               -->
 <!--                                         -->
 <!-- Date Created: 2012-08-20                -->
-<!-- Last Updated: 2012-09-21                -->
+<!-- Last Updated: 2012-09-24                -->
 <!--                                         -->
 <!--                                         -->
 <!-- *************************************** -->
 
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:UML="org.omg.xmi.namespace.UML"
-    xmlns:niematron="http://www.niematron.org/" exclude-result-prefixes="xsl UML niematron"
+    xmlns:niematron="http://www.niematron.org/" xmlns:xalan="http://xml.apache.org/xalan" exclude-result-prefixes="xsl UML niematron xalan"
     version="1.0">
 
     <!-- File location of the xsd.xmi file.  Defaults to same directory as the XSLT if not provided. -->
     <xsl:param name="gXsdProfileFileLocation" select="'./'"/>
 
-    <xsl:output indent="yes" encoding="UTF-8"/>
+    <xsl:output indent="yes" encoding="UTF-8" xalan:indent-amount="2" method="xml"/>
 
     <!-- **************** -->
     <!-- Static Variables -->
@@ -415,7 +415,7 @@
                 </xsl:element>
             </xsl:for-each>
         </xsl:for-each>
-        
+
         <!-- "None" Element Lines (Defaulting to the same as private) -->
         <xsl:for-each
             select="/XMI/XMI.content[1]/UML:Model[1]/UML:Namespace.ownedElement[1]/UML:Association">
@@ -436,7 +436,7 @@
                                 />
                             </xsl:attribute>
                         </xsl:when>
-                        
+
                         <!-- Use Line Name if it exists -->
                         <xsl:when test="string-length(../../@name) > 0">
                             <xsl:attribute name="name">
@@ -448,7 +448,7 @@
                                 />
                             </xsl:attribute>
                         </xsl:when>
-                        
+
                         <!-- Use Class Name if it exists -->
                         <xsl:when
                             test="count(/XMI/XMI.content[1]/UML:Model[1]/UML:Namespace.ownedElement[1]/UML:Class[@xmi.id = $vToClassIdref]) > 0">
@@ -463,13 +463,13 @@
                                 />
                             </xsl:attribute>
                         </xsl:when>
-                        
-                        
+
+
                     </xsl:choose>
-                    
+
                     <!-- MinOccurs -->
                     <xsl:attribute name="minOccurs">
-                        
+
                         <xsl:choose>
                             <xsl:when
                                 test="../UML:AssociationEnd[@isNavigable='true']/UML:AssociationEnd.multiplicity[1]/UML:Multiplicity[1]/UML:Multiplicity.range[1]/UML:MultiplicityRange[1]/@lower">
@@ -480,33 +480,33 @@
                             <xsl:otherwise>
                                 <xsl:value-of select="'0'"/>
                             </xsl:otherwise>
-                            
+
                         </xsl:choose>
-                        
-                        
+
+
                     </xsl:attribute>
-                    
+
                     <!-- MaxOccurs -->
                     <xsl:attribute name="maxOccurs">
                         <xsl:choose>
-                            
+
                             <!-- Cannot exceed "1" for xsd:all -->
                             <xsl:when test="$vContentModelString = 'xsd:all'">
                                 <xsl:value-of select="'1'"/>
                             </xsl:when>
-                            
+
                             <!-- Replace "-1" with "unbounded" -->
                             <xsl:when
                                 test="../UML:AssociationEnd[@isNavigable='true']/UML:AssociationEnd.multiplicity[1]/UML:Multiplicity[1]/UML:Multiplicity.range[1]/UML:MultiplicityRange[1]/@upper = -1">
                                 <xsl:value-of select="'unbounded'"/>
                             </xsl:when>
-                            
+
                             <!-- Make 'unbounded' if not specified -->
                             <xsl:when
                                 test="count(../UML:AssociationEnd[@isNavigable='true']/UML:AssociationEnd.multiplicity[1]/UML:Multiplicity[1]/UML:Multiplicity.range[1]/UML:MultiplicityRange[1]/@upper) = 0">
                                 <xsl:value-of select="'unbounded'"/>
                             </xsl:when>
-                            
+
                             <!-- All others, just take what's in the 'upper' attribute -->
                             <xsl:otherwise>
                                 <xsl:value-of
@@ -591,9 +591,20 @@
 
                 <!-- Unsupported version of XMI -->
                 <xsl:text>
-** UNSUPPORTED FILE TYPE **
+** ERROR: UNSUPPORTED FILE TYPE **
 This transform currently only supports 
 - UML version 1.4 encpasulated in XMI version 1.2. 
+</xsl:text>
+            </xsl:when>
+            <xsl:when test="count(/XMI/XMI.content[1]/UML:Model[1]/UML:Namespace.ownedElement[1]/UML:Association[UML:Association.connection[1]/UML:AssociationEnd/@isNavigable='false']) != count(/XMI/XMI.content[1]/UML:Model[1]/UML:Namespace.ownedElement[1]/UML:Association)">
+                <!-- Missing navigable arrows -->
+                <xsl:text>
+** ERROR: DIRECTIONAL/NAVIGABLE ARROWS REQUIRED **
+This transform currently only supports associations with navigable arrows including:
+- UniAssociation
+- UniAggregation
+- UniComposition
+Please correct association lines to one of the above supported types.
 </xsl:text>
             </xsl:when>
             <xsl:otherwise>
@@ -619,10 +630,11 @@ This transform currently only supports
                         <xsl:variable name="vClassId" select="@xmi.id"/>
                         <xsl:text>
      
-    </xsl:text>
+  </xsl:text>
                         <xsl:comment>
                             <xsl:value-of select="concat (@name, ' Class as defined in the UML.')"/>
-                        </xsl:comment>
+                        </xsl:comment><xsl:text>
+  </xsl:text>
                         <xsl:element name="xsd:complexType">
                             <xsl:attribute name="name">
                                 <xsl:value-of select="concat(@name, 'Type')"/>
@@ -681,8 +693,10 @@ This transform currently only supports
                         test="/XMI/XMI.content[1]/UML:Model[1]/UML:Namespace.ownedElement[1]/UML:Interface">
                         <xsl:text>
                         
-   </xsl:text>
+  </xsl:text>
                         <xsl:comment>Global Abstract Elements</xsl:comment>
+                        <xsl:text>
+  </xsl:text>
                     </xsl:if>
                     <xsl:for-each
                         select="/XMI/XMI.content[1]/UML:Model[1]/UML:Namespace.ownedElement[1]/UML:Interface">
@@ -700,35 +714,115 @@ This transform currently only supports
                     <!-- Substitution Elements/Lines -->
                     <xsl:text>
                         
-   </xsl:text>
+  </xsl:text>
                     <xsl:comment>Global Elements</xsl:comment>
+                    <xsl:text>
+  </xsl:text>
                     <xsl:variable name="vRealizeStereotype"
                         select="/XMI/XMI.content[1]/UML:Model[1]/UML:Namespace.ownedElement[1]/UML:Stereotype[@name='realize']/@xmi.id"/>
-                    <xsl:for-each
-                        select="/XMI/XMI.content[1]/UML:Model[1]/UML:Namespace.ownedElement[1]/UML:Class">
 
-                        <xsl:element name="xsd:element">
-                            <xsl:attribute name="name">
-                                <xsl:value-of select="@name"/>
-                            </xsl:attribute>
-                            <xsl:attribute name="type">
-                                <xsl:value-of select="concat(@name,'Type')"/>
-                            </xsl:attribute>
-                            <xsl:variable name="vClassAbstrRef"
-                                select="./UML:ModelElement.clientDependency/UML:Abstraction/@xmi.idref"/>
+                    
+                    <xsl:choose>
 
-                            <xsl:if
-                                test="/XMI/XMI.content[1]/UML:Model[1]/UML:Namespace.ownedElement[1]/UML:Abstraction[@xmi.id=$vClassAbstrRef]/UML:ModelElement.stereotype[1]/UML:Stereotype/@xmi.idref = $vRealizeStereotype">
-                                <xsl:variable name="vAbstractRef"
-                                    select="/XMI/XMI.content[1]/UML:Model[1]/UML:Namespace.ownedElement[1]/UML:Abstraction[@xmi.id=$vClassAbstrRef]/UML:Dependency.supplier/UML:Interface/@xmi.idref"/>
-                                <xsl:attribute name="substitutionGroup">
-                                    <xsl:value-of
-                                        select="/XMI/XMI.content[1]/UML:Model[1]/UML:Namespace.ownedElement[1]/UML:Interface[@xmi.id=$vAbstractRef]/@name"
-                                    />
-                                </xsl:attribute>
-                            </xsl:if>
-                        </xsl:element>
-                    </xsl:for-each>
+                        <!-- Use the one flagged as "root" with a stereotype if any -->
+                        <xsl:when
+                            test="/XMI/XMI.content[1]/UML:Model[1]/UML:Namespace.ownedElement[1]/UML:Class[UML:ModelElement.stereotype/UML:Stereotype/@href = 'http://argouml.org/user-profiles/xsd.xmi#id-xsd-m-s-c-root']">
+
+                            <!-- Root Element -->
+                            <xsl:for-each
+                                select="/XMI/XMI.content[1]/UML:Model[1]/UML:Namespace.ownedElement[1]/UML:Class[UML:ModelElement.stereotype/UML:Stereotype/@href = 'http://argouml.org/user-profiles/xsd.xmi#id-xsd-m-s-c-root']">
+
+                                <xsl:element name="xsd:element">
+                                    <xsl:attribute name="name">
+                                        <xsl:value-of select="@name"/>
+                                    </xsl:attribute>
+                                    <xsl:attribute name="type">
+                                        <xsl:value-of select="concat(@name,'Type')"/>
+                                    </xsl:attribute>
+                                </xsl:element>
+                            </xsl:for-each>
+
+                            <!-- Substitution Concretes -->
+                            <xsl:for-each
+                                select="/XMI/XMI.content[1]/UML:Model[1]/UML:Namespace.ownedElement[1]/UML:Class">
+                                <xsl:variable name="vClassAbstrRef"
+                                    select="./UML:ModelElement.clientDependency/UML:Abstraction/@xmi.idref"/>
+                                <xsl:if
+                                    test="/XMI/XMI.content[1]/UML:Model[1]/UML:Namespace.ownedElement[1]/UML:Abstraction[@xmi.id=$vClassAbstrRef]/UML:ModelElement.stereotype[1]/UML:Stereotype/@xmi.idref = $vRealizeStereotype">
+                                    <xsl:variable name="vAbstractRef"
+                                        select="/XMI/XMI.content[1]/UML:Model[1]/UML:Namespace.ownedElement[1]/UML:Abstraction[@xmi.id=$vClassAbstrRef]/UML:Dependency.supplier/UML:Interface/@xmi.idref"/>
+                                    <xsl:element name="xsd:element">
+                                        <xsl:attribute name="name">
+                                            <xsl:value-of select="@name"/>
+                                        </xsl:attribute>
+                                        <xsl:attribute name="type">
+                                            <xsl:value-of select="concat(@name,'Type')"/>
+                                        </xsl:attribute>
+                                        <xsl:attribute name="substitutionGroup">
+                                            <xsl:value-of
+                                                select="/XMI/XMI.content[1]/UML:Model[1]/UML:Namespace.ownedElement[1]/UML:Interface[@xmi.id=$vAbstractRef]/@name"
+                                            />
+                                        </xsl:attribute>
+
+                                    </xsl:element>
+                                </xsl:if>
+                            </xsl:for-each>
+                            
+                            <!-- Elements Pointed To by Aggregation Lines -->
+                            <xsl:variable name="vGlobalClassIdRefs"
+                                select="/XMI/XMI.content[1]/UML:Model[1]/UML:Namespace.ownedElement[1]/UML:Association/UML:Association.connection[UML:AssociationEnd/@isNavigable='false' and UML:AssociationEnd/@aggregation='aggregate']/UML:AssociationEnd[@isNavigable='true']/UML:AssociationEnd.participant/UML:Class/@xmi.idref"/>
+                            <xsl:for-each
+                                select="/XMI/XMI.content[1]/UML:Model[1]/UML:Namespace.ownedElement[1]/UML:Class[@xmi.id=$vGlobalClassIdRefs]">
+                                
+                                <xsl:element name="xsd:element">
+                                    <xsl:attribute name="name">
+                                        <xsl:value-of select="@name"/>
+                                    </xsl:attribute>
+                                    <xsl:attribute name="type">
+                                        <xsl:value-of select="concat(@name,'Type')"/>
+                                    </xsl:attribute>
+                                </xsl:element>
+                            </xsl:for-each>
+                        </xsl:when>
+                        
+                        <!-- If no "rootElement" stereotype, then give a warning in the comment and add any box not currently involved in an association. -->
+                        <xsl:otherwise>
+                            <xsl:comment>WARNING: NO ROOT ELEMENT DEFINED! Please assign a class to the 'rootElement' Stereotype in the xsd.xmi profile otherwise all classes assumed to be global.</xsl:comment><xsl:text>
+  </xsl:text>
+                            <xsl:variable name="vAssociatedClassesIdRefs"
+                                select="/XMI/XMI.content[1]/UML:Model[1]/UML:Namespace.ownedElement[1]/UML:Association/UML:Association.connection/UML:AssociationEnd[@isNavigable='true']/UML:AssociationEnd.participant/UML:Class/@xmi.idref"/>
+                            <xsl:for-each
+                                select="/XMI/XMI.content[1]/UML:Model[1]/UML:Namespace.ownedElement[1]/UML:Class[@xmi.id != $vAssociatedClassesIdRefs]">
+
+                                <xsl:element name="xsd:element">
+                                    <xsl:attribute name="name">
+                                        <xsl:value-of select="@name"/>
+                                    </xsl:attribute>
+                                    <xsl:attribute name="type">
+                                        <xsl:value-of select="concat(@name,'Type')"/>
+                                    </xsl:attribute>
+
+                                    <xsl:variable name="vClassAbstrRef"
+                                        select="./UML:ModelElement.clientDependency/UML:Abstraction/@xmi.idref"/>
+                                    <xsl:if
+                                        test="/XMI/XMI.content[1]/UML:Model[1]/UML:Namespace.ownedElement[1]/UML:Abstraction[@xmi.id=$vClassAbstrRef]/UML:ModelElement.stereotype[1]/UML:Stereotype/@xmi.idref = $vRealizeStereotype">
+                                        <xsl:variable name="vAbstractRef"
+                                            select="/XMI/XMI.content[1]/UML:Model[1]/UML:Namespace.ownedElement[1]/UML:Abstraction[@xmi.id=$vClassAbstrRef]/UML:Dependency.supplier/UML:Interface/@xmi.idref"/>
+                                        <xsl:attribute name="substitutionGroup">
+                                            <xsl:value-of
+                                                select="/XMI/XMI.content[1]/UML:Model[1]/UML:Namespace.ownedElement[1]/UML:Interface[@xmi.id=$vAbstractRef]/@name"
+                                            />
+                                        </xsl:attribute>
+
+                                    </xsl:if>
+                                </xsl:element>
+                            </xsl:for-each>
+                        </xsl:otherwise>
+                    </xsl:choose>
+
+                    
+
+
 
                     <!-- Enumerations -->
                     <xsl:if
@@ -736,7 +830,8 @@ This transform currently only supports
                         <xsl:text>
                         
    </xsl:text>
-                        <xsl:comment>Global Enumerations</xsl:comment>
+                        <xsl:comment>Global Enumerations</xsl:comment><xsl:text>
+  </xsl:text>
                     </xsl:if>
                     <xsl:for-each
                         select="/XMI/XMI.content[1]/UML:Model[1]/UML:Namespace.ownedElement[1]/UML:Enumeration">
@@ -769,9 +864,9 @@ This transform currently only supports
                         test="/XMI/XMI.content[1]/UML:Model[1]/UML:Namespace.ownedElement[1]/UML:DataType">
                         <xsl:text>
                         
-   </xsl:text>
-                        <xsl:comment>WARNING: UNSUPPORTED DATA TYPES! Please remap to a data type in
-                            xsd.xmi profile.</xsl:comment>
+  </xsl:text>
+                        <xsl:comment>WARNING: UNSUPPORTED DATA TYPES! Please remap to a data type in xsd.xmi profile.</xsl:comment><xsl:text>
+  </xsl:text>
                     </xsl:if>
                     <xsl:for-each
                         select="/XMI/XMI.content[1]/UML:Model[1]/UML:Namespace.ownedElement[1]/UML:DataType">

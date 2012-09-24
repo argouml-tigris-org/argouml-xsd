@@ -1,6 +1,6 @@
 <?xml version = '1.0' encoding = 'UTF-8' ?>
 <XMI xmi.version="1.2" xmlns:UML="org.omg.xmi.namespace.UML"
-  timestamp="Mon Aug 20 09:52:30 PDT 2012">
+  timestamp="Mon Sep 24 09:30:39 PDT 2012">
   <XMI.header>
     <XMI.documentation>
       <XMI.exporter>ArgoUML (using Netbeans XMI Writer version 1.0)</XMI.exporter>
@@ -669,6 +669,11 @@
         <UML:Stereotype xmi.id="id-xsd-m-s-g-restriction" name="restriction" isSpecification="false"
           isRoot="false" isLeaf="false" isAbstract="false">
           <UML:Stereotype.baseClass>Generalization</UML:Stereotype.baseClass>
+        </UML:Stereotype>
+        <UML:Stereotype xmi.id="id-xsd-m-s-c-root"
+          name="rootElement" isSpecification="false" isRoot="false" isLeaf="false"
+          isAbstract="false">
+          <UML:Stereotype.baseClass>Class</UML:Stereotype.baseClass>
         </UML:Stereotype>
       </UML:Namespace.ownedElement>
     </UML:Model>
