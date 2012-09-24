@@ -1,0 +1,8 @@
+All CLASSES pointed to by some arrow.
+/XMI/XMI.content[1]/UML:Model[1]/UML:Namespace.ownedElement[1]/UML:Association/UML:Association.connection/UML:AssociationEnd[@isNavigable='true']/UML:AssociationEnd.participant/UML:Class/@xmi.idref
+
+All CLASSES with an end point (no arrow)
+/XMI/XMI.content[1]/UML:Model[1]/UML:Namespace.ownedElement[1]/UML:Association/UML:Association.connection[1]/UML:AssociationEnd[2]/UML:AssociationEnd.participant[1]/UML:Class[1]/@xmi.idref
+
+Navigable Associations
+count(/XMI/XMI.content[1]/UML:Model[1]/UML:Namespace.ownedElement[1]/UML:Association[UML:Association.connection[1]/UML:AssociationEnd/@isNavigable='true'])
