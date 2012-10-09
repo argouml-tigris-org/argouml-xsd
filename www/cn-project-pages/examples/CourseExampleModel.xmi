@@ -68,7 +68,7 @@
                 <UML:Stereotype href = 'http://argouml.org/user-profiles/xsd.xmi#id-xsd-m-s-e-element'/>
               </UML:ModelElement.stereotype>
               <UML:StructuralFeature.type>
-                <UML:DataType href = 'http://argouml.org/user-profiles/xsd.xmi#id-xsd-m-d-nonnegativeinteger'/>
+                <UML:DataType href = 'http://argouml.org/user-profiles/xsd.xmi#id-xsd-m-d-nonNegativeInteger'/>
               </UML:StructuralFeature.type>
             </UML:Attribute>
           </UML:Classifier.feature>
@@ -266,7 +266,7 @@
                 </UML:Multiplicity>
               </UML:StructuralFeature.multiplicity>
               <UML:StructuralFeature.type>
-                <UML:DataType href = 'http://argouml.org/user-profiles/xsd.xmi#id-xsd-m-d-gday'/>
+                <UML:DataType href = 'http://argouml.org/user-profiles/xsd.xmi#id-xsd-m-d-gDay'/>
               </UML:StructuralFeature.type>
             </UML:Attribute>
             <UML:Attribute xmi.id = '-50--62--106-65-5c8c2720:13944f4feee:-8000:0000000000000B0C'

@@ -28,7 +28,7 @@
             </UML:TaggedValue>
           </UML:ModelElement.taggedValue>
         </UML:DataType>
-        <UML:DataType xmi.id="id-xsd-m-d-anyuri" name="anyURI" isSpecification="false"
+        <UML:DataType xmi.id="id-xsd-m-d-anyURI" name="anyURI" isSpecification="false"
           isRoot="false" isLeaf="false" isAbstract="false">
           <UML:ModelElement.taggedValue>
             <UML:TaggedValue xmi.id="75--64-65--103-55f3b42a:11d4b5227e7:-8000:0000000000000CBE"
@@ -44,7 +44,7 @@
             </UML:TaggedValue>
           </UML:ModelElement.taggedValue>
         </UML:DataType>
-        <UML:DataType xmi.id="id-xsd-m-d-base64binary" name="base64Binary" isSpecification="false"
+        <UML:DataType xmi.id="id-xsd-m-d-base64Binary" name="base64Binary" isSpecification="false"
           isRoot="false" isLeaf="false" isAbstract="false">
           <UML:ModelElement.taggedValue>
             <UML:TaggedValue xmi.id="75--64-65--103-55f3b42a:11d4b5227e7:-8000:0000000000000CBF"
@@ -88,7 +88,7 @@
             </UML:TaggedValue>
           </UML:ModelElement.taggedValue>
         </UML:DataType>
-        <UML:DataType xmi.id="id-xsd-m-d-datetime" name="dateTime" isSpecification="false"
+        <UML:DataType xmi.id="id-xsd-m-d-dateTime" name="dateTime" isSpecification="false"
           isRoot="false" isLeaf="false" isAbstract="false">
           <UML:ModelElement.taggedValue>
             <UML:TaggedValue xmi.id="75--64-65--103-55f3b42a:11d4b5227e7:-8000:0000000000000CC3"
@@ -200,7 +200,7 @@
             </UML:TaggedValue>
           </UML:ModelElement.taggedValue>
         </UML:DataType>
-        <UML:DataType xmi.id="id-xsd-m-d-gday" name="gDay" isSpecification="false" isRoot="false"
+        <UML:DataType xmi.id="id-xsd-m-d-gDay" name="gDay" isSpecification="false" isRoot="false"
           isLeaf="false" isAbstract="false">
           <UML:ModelElement.taggedValue>
             <UML:TaggedValue xmi.id="75--64-65--103-55f3b42a:11d4b5227e7:-8000:0000000000000CC9"
@@ -216,7 +216,7 @@
             </UML:TaggedValue>
           </UML:ModelElement.taggedValue>
         </UML:DataType>
-        <UML:DataType xmi.id="id-xsd-m-d-gmonth" name="gMonth" isSpecification="false"
+        <UML:DataType xmi.id="id-xsd-m-d-gMonth" name="gMonth" isSpecification="false"
           isRoot="false" isLeaf="false" isAbstract="false">
           <UML:ModelElement.taggedValue>
             <UML:TaggedValue xmi.id="75--64-65--103-55f3b42a:11d4b5227e7:-8000:0000000000000CCB"
@@ -231,7 +231,7 @@
             </UML:TaggedValue>
           </UML:ModelElement.taggedValue>
         </UML:DataType>
-        <UML:DataType xmi.id="id-xsd-m-d-gmonthday" name="gMonthDay" isSpecification="false"
+        <UML:DataType xmi.id="id-xsd-m-d-gMonthDay" name="gMonthDay" isSpecification="false"
           isRoot="false" isLeaf="false" isAbstract="false">
           <UML:ModelElement.taggedValue>
             <UML:TaggedValue xmi.id="75--64-65--103-55f3b42a:11d4b5227e7:-8000:0000000000000CCF"
@@ -245,7 +245,7 @@
             </UML:TaggedValue>
           </UML:ModelElement.taggedValue>
         </UML:DataType>
-        <UML:DataType xmi.id="id-xsd-m-d-gyear" name="gYear" isSpecification="false" isRoot="false"
+        <UML:DataType xmi.id="id-xsd-m-d-gYear" name="gYear" isSpecification="false" isRoot="false"
           isLeaf="false" isAbstract="false">
           <UML:ModelElement.taggedValue>
             <UML:TaggedValue xmi.id="75--64-65--103-55f3b42a:11d4b5227e7:-8000:0000000000000CD1"
@@ -259,7 +259,7 @@
             </UML:TaggedValue>
           </UML:ModelElement.taggedValue>
         </UML:DataType>
-        <UML:DataType xmi.id="id-xsd-m-d-gyearmonth" name="gYearMonth" isSpecification="false"
+        <UML:DataType xmi.id="id-xsd-m-d-gYearMonth" name="gYearMonth" isSpecification="false"
           isRoot="false" isLeaf="false" isAbstract="false">
           <UML:ModelElement.taggedValue>
             <UML:TaggedValue xmi.id="75--64-65--103-55f3b42a:11d4b5227e7:-8000:0000000000000CD3"
@@ -273,7 +273,7 @@
             </UML:TaggedValue>
           </UML:ModelElement.taggedValue>
         </UML:DataType>
-        <UML:DataType xmi.id="id-xsd-m-d-hexbinary" name="hexBinary" isSpecification="false"
+        <UML:DataType xmi.id="id-xsd-m-d-hexBinary" name="hexBinary" isSpecification="false"
           isRoot="false" isLeaf="false" isAbstract="false">
           <UML:ModelElement.taggedValue>
             <UML:TaggedValue xmi.id="75--64-65--103-55f3b42a:11d4b5227e7:-8000:0000000000000CD5"
@@ -287,7 +287,7 @@
             </UML:TaggedValue>
           </UML:ModelElement.taggedValue>
         </UML:DataType>
-        <UML:DataType xmi.id="id-xsd-m-d-id" name="ID" isSpecification="false" isRoot="false"
+        <UML:DataType xmi.id="id-xsd-m-d-ID" name="ID" isSpecification="false" isRoot="false"
           isLeaf="false" isAbstract="false">
           <UML:ModelElement.taggedValue>
             <UML:TaggedValue xmi.id="75--64-65--103-55f3b42a:11d4b5227e7:-8000:0000000000000CD7"
@@ -300,7 +300,7 @@
             </UML:TaggedValue>
           </UML:ModelElement.taggedValue>
         </UML:DataType>
-        <UML:DataType xmi.id="id-xsd-m-d-idref" name="IDREF" isSpecification="false" isRoot="false"
+        <UML:DataType xmi.id="id-xsd-m-d-IDREF" name="IDREF" isSpecification="false" isRoot="false"
           isLeaf="false" isAbstract="false">
           <UML:ModelElement.taggedValue>
             <UML:TaggedValue xmi.id="75--64-65--103-55f3b42a:11d4b5227e7:-8000:0000000000000CDA"
@@ -313,7 +313,7 @@
             </UML:TaggedValue>
           </UML:ModelElement.taggedValue>
         </UML:DataType>
-        <UML:DataType xmi.id="id-xsd-m-d-idrefs" name="IDREFS" isSpecification="false"
+        <UML:DataType xmi.id="id-xsd-m-d-IDREFS" name="IDREFS" isSpecification="false"
           isRoot="false" isLeaf="false" isAbstract="false">
           <UML:ModelElement.taggedValue>
             <UML:TaggedValue xmi.id="75--64-65--103-55f3b42a:11d4b5227e7:-8000:0000000000000CDB"
@@ -383,7 +383,7 @@
             </UML:TaggedValue>
           </UML:ModelElement.taggedValue>
         </UML:DataType>
-        <UML:DataType xmi.id="id-xsd-m-d-name" name="Name" isSpecification="false" isRoot="false"
+        <UML:DataType xmi.id="id-xsd-m-d-Name" name="Name" isSpecification="false" isRoot="false"
           isLeaf="false" isAbstract="false">
           <UML:ModelElement.taggedValue>
             <UML:TaggedValue xmi.id="75--64-65--103-55f3b42a:11d4b5227e7:-8000:0000000000000CE5"
@@ -398,7 +398,7 @@
             </UML:TaggedValue>
           </UML:ModelElement.taggedValue>
         </UML:DataType>
-        <UML:DataType xmi.id="id-xsd-m-d-ncname" name="NCName" isSpecification="false"
+        <UML:DataType xmi.id="id-xsd-m-d-NCName" name="NCName" isSpecification="false"
           isRoot="false" isLeaf="false" isAbstract="false">
           <UML:ModelElement.taggedValue>
             <UML:TaggedValue xmi.id="75--64-65--103-55f3b42a:11d4b5227e7:-8000:0000000000000CE7"
@@ -413,7 +413,7 @@
             </UML:TaggedValue>
           </UML:ModelElement.taggedValue>
         </UML:DataType>
-        <UML:DataType xmi.id="id-xsd-m-d-negativeinteger" name="negativeInteger"
+        <UML:DataType xmi.id="id-xsd-m-d-negativeInteger" name="negativeInteger"
           isSpecification="false" isRoot="false" isLeaf="false" isAbstract="false">
           <UML:ModelElement.taggedValue>
             <UML:TaggedValue xmi.id="75--64-65--103-55f3b42a:11d4b5227e7:-8000:0000000000000CE9"
@@ -427,7 +427,7 @@
             </UML:TaggedValue>
           </UML:ModelElement.taggedValue>
         </UML:DataType>
-        <UML:DataType xmi.id="id-xsd-m-d-nmtoken" name="NMTOKEN" isSpecification="false"
+        <UML:DataType xmi.id="id-xsd-m-d-NMTOKEN" name="NMTOKEN" isSpecification="false"
           isRoot="false" isLeaf="false" isAbstract="false">
           <UML:ModelElement.taggedValue>
             <UML:TaggedValue xmi.id="75--64-65--103-55f3b42a:11d4b5227e7:-8000:0000000000000CEC"
@@ -441,7 +441,7 @@
             </UML:TaggedValue>
           </UML:ModelElement.taggedValue>
         </UML:DataType>
-        <UML:DataType xmi.id="id-xsd-m-d-nmtokens" name="NMTOKENS" isSpecification="false"
+        <UML:DataType xmi.id="id-xsd-m-d-NMTOKENS" name="NMTOKENS" isSpecification="false"
           isRoot="false" isLeaf="false" isAbstract="false">
           <UML:ModelElement.taggedValue>
             <UML:TaggedValue xmi.id="75--64-65--103-55f3b42a:11d4b5227e7:-8000:0000000000000CED"
@@ -456,7 +456,7 @@
             </UML:TaggedValue>
           </UML:ModelElement.taggedValue>
         </UML:DataType>
-        <UML:DataType xmi.id="id-xsd-m-d-nonnegativeinteger" name="nonNegativeInteger"
+        <UML:DataType xmi.id="id-xsd-m-d-nonNegativeInteger" name="nonNegativeInteger"
           isSpecification="false" isRoot="false" isLeaf="false" isAbstract="false">
           <UML:ModelElement.taggedValue>
             <UML:TaggedValue xmi.id="75--64-65--103-55f3b42a:11d4b5227e7:-8000:0000000000000CEF"
@@ -470,7 +470,7 @@
             </UML:TaggedValue>
           </UML:ModelElement.taggedValue>
         </UML:DataType>
-        <UML:DataType xmi.id="id-xsd-m-d-nonpositiveinteger" name="nonPositiveInteger"
+        <UML:DataType xmi.id="id-xsd-m-d-nonPositiveInteger" name="nonPositiveInteger"
           isSpecification="false" isRoot="false" isLeaf="false" isAbstract="false">
           <UML:ModelElement.taggedValue>
             <UML:TaggedValue xmi.id="75--64-65--103-55f3b42a:11d4b5227e7:-8000:0000000000000CF1"
@@ -484,7 +484,7 @@
             </UML:TaggedValue>
           </UML:ModelElement.taggedValue>
         </UML:DataType>
-        <UML:DataType xmi.id="id-xsd-m-d-normaliedstring" name="normalizedString"
+        <UML:DataType xmi.id="id-xsd-m-d-normalizedString" name="normalizedString"
           isSpecification="false" isRoot="false" isLeaf="false" isAbstract="false">
           <UML:ModelElement.taggedValue>
             <UML:TaggedValue xmi.id="75--64-65--103-55f3b42a:11d4b5227e7:-8000:0000000000000CF3"
@@ -499,7 +499,7 @@
             </UML:TaggedValue>
           </UML:ModelElement.taggedValue>
         </UML:DataType>
-        <UML:DataType xmi.id="id-xsd-m-d-positiveinteger" name="positiveInteger"
+        <UML:DataType xmi.id="id-xsd-m-d-positiveInteger" name="positiveInteger"
           isSpecification="false" isRoot="false" isLeaf="false" isAbstract="false">
           <UML:ModelElement.taggedValue>
             <UML:TaggedValue xmi.id="75--64-65--103-55f3b42a:11d4b5227e7:-8000:0000000000000CF5"
@@ -513,7 +513,7 @@
             </UML:TaggedValue>
           </UML:ModelElement.taggedValue>
         </UML:DataType>
-        <UML:DataType xmi.id="id-xsd-m-d-qname" name="QName" isSpecification="false" isRoot="false"
+        <UML:DataType xmi.id="id-xsd-m-d-QName" name="QName" isSpecification="false" isRoot="false"
           isLeaf="false" isAbstract="false">
           <UML:ModelElement.taggedValue>
             <UML:TaggedValue xmi.id="75--64-65--103-55f3b42a:11d4b5227e7:-8000:0000000000000CF7"
@@ -586,7 +586,7 @@
             </UML:TaggedValue>
           </UML:ModelElement.taggedValue>
         </UML:DataType>
-        <UML:DataType xmi.id="id-xsd-m-d-unsignedbyte" name="unsignedByte" isSpecification="false"
+        <UML:DataType xmi.id="id-xsd-m-d-unsignedByte" name="unsignedByte" isSpecification="false"
           isRoot="false" isLeaf="false" isAbstract="false">
           <UML:ModelElement.taggedValue>
             <UML:TaggedValue xmi.id="75--64-65--103-55f3b42a:11d4b5227e7:-8000:0000000000000D01"
@@ -600,7 +600,7 @@
             </UML:TaggedValue>
           </UML:ModelElement.taggedValue>
         </UML:DataType>
-        <UML:DataType xmi.id="id-xsd-m-d-unsignedint" name="unsignedInt" isSpecification="false"
+        <UML:DataType xmi.id="id-xsd-m-d-unsignedInt" name="unsignedInt" isSpecification="false"
           isRoot="false" isLeaf="false" isAbstract="false">
           <UML:ModelElement.taggedValue>
             <UML:TaggedValue xmi.id="75--64-65--103-55f3b42a:11d4b5227e7:-8000:0000000000000D03"
@@ -614,7 +614,7 @@
             </UML:TaggedValue>
           </UML:ModelElement.taggedValue>
         </UML:DataType>
-        <UML:DataType xmi.id="id-xsd-m-d-unsignedlong" name="unsignedLong" isSpecification="false"
+        <UML:DataType xmi.id="id-xsd-m-d-unsignedLong" name="unsignedLong" isSpecification="false"
           isRoot="false" isLeaf="false" isAbstract="false">
           <UML:ModelElement.taggedValue>
             <UML:TaggedValue xmi.id="75--64-65--103-55f3b42a:11d4b5227e7:-8000:0000000000000D05"
@@ -628,7 +628,7 @@
             </UML:TaggedValue>
           </UML:ModelElement.taggedValue>
         </UML:DataType>
-        <UML:DataType xmi.id="id-xsd-m-d-unsignedshort" name="unsignedShort" isSpecification="false"
+        <UML:DataType xmi.id="id-xsd-m-d-unsignedShort" name="unsignedShort" isSpecification="false"
           isRoot="false" isLeaf="false" isAbstract="false">
           <UML:ModelElement.taggedValue>
             <UML:TaggedValue xmi.id="75--64-65--103-55f3b42a:11d4b5227e7:-8000:0000000000000D07"
